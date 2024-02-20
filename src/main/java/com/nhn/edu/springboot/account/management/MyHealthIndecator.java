@@ -11,17 +11,17 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class MyHealthIndecator implements HealthIndicator {
 
     private final AtomicBoolean healthy = new AtomicBoolean(true);
-//
-//    @Override
-//    public Health getHealth(boolean includeDetails) {
-//        return HealthIndicator.super.getHealth(includeDetails);
-//    }
 
+    public void setUnhealthy(){
+        this.healthy.set(false);
+    }
 
 
     @Override
     public Health health() {
-        return Health.up().withDetail("reason", "don't know").build();
-
+        if(healthy.get()){
+            return Health.up().build();
+        }
+        return Health.down().withDetail("reason", "manual unhealthy status...").build();
     }
 }
